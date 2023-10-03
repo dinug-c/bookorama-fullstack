@@ -112,7 +112,12 @@ const AddBookPage = () => {
         lebih luas{" "}
       </p>
       <div className=" mt-10 h-full w-5/6 rounded-md bg-white px-20 py-14 shadow-sm">
-        <form onSubmit={handleSubmit(formSubmit)} className="add-book-form">
+        <form
+          onSubmit={() => {
+            handleSubmit(formSubmit);
+          }}
+          className="add-book-form"
+        >
           <TextFieldInput
             register={register}
             type="text"

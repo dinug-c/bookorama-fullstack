@@ -65,7 +65,7 @@ const BookPage = () => {
           await router.push("/dashboard");
           await getBooks();
         } else {
-          const msg = await res.json();
+          const msg: MsgProps = await res.json();
           alert(msg.message); // Menampilkan pesan kesalahan dari server jika penghapusan gagal
         }
       } catch (error) {
