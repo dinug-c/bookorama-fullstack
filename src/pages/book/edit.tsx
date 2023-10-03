@@ -6,7 +6,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextFieldInput from "~/components/input";
 import { ArrowLeft, Text } from "iconsax-react";
 import ButtonCustom from "~/components/button";
@@ -75,21 +75,15 @@ const EditBookPage = () => {
     }
   }, []);
 
-  const formSubmit = async ({
-    title,
-    categoryId,
-    author,
-    price,
-    stock,
-  }: BookProps) => {
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const body: BookProps = {
         isbn: id as string,
-        title: title,
-        author: author,
-        price: price,
-        stock: stock,
-        categoryId: categoryId,
+        title: data.title,
+        author: data.author,
+        price: data.price,
+        stock: data.stock,
+        categoryId: data.categoryId,
       };
       const res = await fetch("/api/book/update", {
         method: "PUT",
