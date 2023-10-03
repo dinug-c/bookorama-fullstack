@@ -24,8 +24,8 @@ export default function LoginPage() {
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const body: loginProps = {
-        email: data.email,
-        password: data.password,
+        email: data.email as string,
+        password: data.password as string,
       };
       const res = await fetch("/api/auth/login", {
         method: "POST",

@@ -22,6 +22,11 @@ interface CategoryList {
 }
 [];
 
+interface Response {
+  data: CategoryList[];
+  message: string;
+}
+
 const AddBookPage = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<CategoryList[]>([]);
@@ -36,11 +41,11 @@ const AddBookPage = () => {
   const fetchCategories = async () => {
     try {
       const response = await fetch("/api/book/category_list");
-      const data = await response.json();
+      const data: Response = (await response.json()) as Response;
       if (response.ok) {
-        setCategories(data["data"]); // Simpan data kategori dalam state
+        setCategories(data.data); // Simpan data kategori dalam state
       } else {
-        console.error(data["message"]);
+        console.error(data.message);
       }
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
@@ -48,18 +53,20 @@ const AddBookPage = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategories().catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+    });
   }, []);
 
   const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const body: BookProps = {
-        isbn: data.isbn,
-        title: data.title,
-        author: data.author,
-        price: data.price,
-        stock: data.stock,
-        categoryId: data.categoryId,
+        isbn: data.isbn as string,
+        title: data.title as string,
+        author: data.author as string,
+        price: data.price as number,
+        stock: data.stock as number,
+        categoryId: data.categoryId as number,
       };
       const regex = /^0-\d{3}-\d{5}-\d$/;
       if (!regex.test(body.isbn)) {
@@ -77,8 +84,8 @@ const AddBookPage = () => {
           alert("Buku berhasil ditambahkan");
           await router.push("/dashboard");
         } else {
-          const msg = await res.json();
-          alert(msg["message"]);
+          const respon: Response = (await res.json()) as Response;
+          alert(respon.message);
         }
       }
     } catch (error) {

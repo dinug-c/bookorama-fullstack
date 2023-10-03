@@ -89,9 +89,14 @@ const BookPage = () => {
   };
 
   useEffect(() => {
-    try {
-      getBooks();
-    } catch (e) {}
+    getBooks().catch((error) => {
+      console.error("Terjadi kesalahan:", error);
+    });
+    if (cookies.get("admin") !== "true") {
+      router.push("/login").catch((error) => {
+        console.error("Terjadi kesalahan:", error);
+      });
+    }
   }, []);
 
   return (
@@ -110,7 +115,11 @@ const BookPage = () => {
               backgroundColor="bg-indigo-500"
               color="white"
               hoverBackgroundColor="bg-indigo-700"
-              onClick={handleAddBook}
+              onClick={() => {
+                handleAddBook().catch((error) => {
+                  console.error("Terjadi kesalahan:", error);
+                });
+              }}
             />
           </div>
           <div className="ml-4 flex-grow">
@@ -162,13 +171,21 @@ const BookPage = () => {
                   <div className="mx-auto flex flex-row justify-center space-x-2">
                     <button
                       className="rounded bg-blue-500 px-5 py-2 font-semibold text-white transition-all hover:bg-blue-700"
-                      onClick={() => handleEdit(book.isbn)}
+                      onClick={() => {
+                        handleEdit(book.isbn).catch((error) => {
+                          console.error("Terjadi kesalahan:", error);
+                        });
+                      }}
                     >
                       Edit
                     </button>
                     <button
                       className="rounded bg-red-500 px-5 py-2 font-semibold text-white transition-all hover:bg-red-700"
-                      onClick={() => handleDelete(book.isbn)}
+                      onClick={() => {
+                        handleDelete(book.isbn).catch((error) => {
+                          console.error("Terjadi kesalahan:", error);
+                        });
+                      }}
                     >
                       Delete
                     </button>
@@ -184,14 +201,3 @@ const BookPage = () => {
 };
 
 export default BookPage;
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = new Cookies();
-  if (cookies.get("admin") !== "true") {
-    ctx.res.setHeader("Location", "/");
-    ctx.res.statusCode = 302;
-    ctx.res.end();
-  }
-  return {
-    props: {},
-  };
-};

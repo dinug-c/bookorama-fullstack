@@ -29,7 +29,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
       }
       const isTruePassword = await verifyPassword(
         password,
-        emailCheck.password as string,
+        emailCheck.password,
       );
       if (!isTruePassword) {
         return res.status(401).json({ message: "Password incorrect" });
