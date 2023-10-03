@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import {
-  FieldValues,
-  SubmitHandler,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextFieldInput from "~/components/input";
 import { ArrowLeft, Text } from "iconsax-react";
 import ButtonCustom from "~/components/button";
