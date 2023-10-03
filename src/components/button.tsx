@@ -12,7 +12,6 @@ interface buttonProps {
 
 export default function ButtonCustom({
   text,
-  width,
   height,
   color,
   backgroundColor,

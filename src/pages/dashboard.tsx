@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
@@ -17,6 +18,10 @@ interface Book {
   stock: number;
 }
 [];
+
+interface MsgProps {
+  message: string;
+}
 
 const BookPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -40,13 +45,11 @@ const BookPage = () => {
     await router.push("/book/edit?id=" + isbn);
   };
   const handleDelete = async (isbn: string) => {
-    // Tampilkan konfirmasi dialog kepada pengguna
     console.log(isbn);
     const confirmDelete = window.confirm(
       "Apakah Anda yakin ingin menghapus buku ini?",
     );
 
-    // Jika pengguna menekan "OK" dalam konfirmasi dialog
     if (confirmDelete) {
       try {
         const res = await fetch(`/api/book/delete?isbn=${isbn}`, {
@@ -86,8 +89,9 @@ const BookPage = () => {
   };
 
   useEffect(() => {
-    getBooks();
-    // cookies.get("admin") !== "true" && router.push("/");
+    try {
+      getBooks();
+    } catch (e) {}
   }, []);
 
   return (

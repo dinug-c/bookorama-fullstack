@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Profile, Lock } from "iconsax-react";
 import { useRouter } from "next/router";
-import React from "react";
 import { Cookies } from "react-cookie";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import ButtonCustom from "~/components/button";
 import ErrorCard from "~/components/card";
 import TextFieldInput from "~/components/input";
@@ -23,11 +21,11 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const formSubmit = async ({ email, password }: loginProps) => {
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const body: loginProps = {
-        email: email,
-        password: password,
+        email: data.email,
+        password: data.password,
       };
       const res = await fetch("/api/auth/login", {
         method: "POST",
