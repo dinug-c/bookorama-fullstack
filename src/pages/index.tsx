@@ -35,7 +35,7 @@ export default function LoginPage() {
         },
       });
       if (res.status === 200) {
-        cookies.set("admin", "true", { path: "/" });
+        cookies.set("admin", "true", { path: "/dashboard" });
         await router.push("/dashboard");
       }
     } catch (error) {
