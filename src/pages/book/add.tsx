@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import {
+  FieldValues,
+  SubmitHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import TextFieldInput from "~/components/input";
 import { ArrowLeft, Text } from "iconsax-react";
 import ButtonCustom from "~/components/button";
@@ -51,25 +56,18 @@ const AddBookPage = () => {
     fetchCategories();
   }, []);
 
-  const formSubmit = async ({
-    isbn,
-    title,
-    categoryId,
-    author,
-    price,
-    stock,
-  }: BookProps) => {
+  const formSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const body: BookProps = {
-        isbn: isbn,
-        title: title,
-        author: author,
-        price: price,
-        stock: stock,
-        categoryId: categoryId,
+        isbn: data.isbn,
+        title: data.title,
+        author: data.author,
+        price: data.price,
+        stock: data.stock,
+        categoryId: data.categoryId,
       };
       const regex = /^0-\d{3}-\d{5}-\d$/;
-      if (!regex.test(isbn)) {
+      if (!regex.test(body.isbn)) {
         alert("ISBN tidak valid");
         return;
       } else {
