@@ -93,7 +93,7 @@ const BookPage = () => {
       console.error("Terjadi kesalahan:", error);
     });
     if (cookies.get("admin") !== "true") {
-      router.push("/login").catch((error) => {
+      router.push("/").catch((error) => {
         console.error("Terjadi kesalahan:", error);
       });
     }
