@@ -92,11 +92,11 @@ const BookPage = () => {
     getBooks().catch((error) => {
       console.error("Terjadi kesalahan:", error);
     });
-    if (cookies.get("admin") !== "true") {
-      router.push("/").catch((error) => {
-        console.error("Terjadi kesalahan:", error);
-      });
-    }
+    // if (cookies.get("admin") !== "true") {
+    //   router.push("/").catch((error) => {
+    //     console.error("Terjadi kesalahan:", error);
+    //   });
+    // }
   }, []);
 
   return (
